@@ -1,7 +1,9 @@
+"""Generate some toy datasets to play around with."""
+
 import numpy as np
 
 def generate_mog_datasets(points: int, latent_dims: int, output_dims: int):
-    '''generate some very simple mixture of gaussians data.
+    '''Create data from a Mixture of Gaussians generative model.
 
     Args:
         points (int): number of points to generate
@@ -11,7 +13,7 @@ def generate_mog_datasets(points: int, latent_dims: int, output_dims: int):
     latent = list(range(latent_dims))
 
     spacing = 20
-    scale =5
+    scale = 5
     means = np.random.multivariate_normal(
         mean=np.zeros(output_dims),
         cov=np.eye(output_dims) * spacing,
@@ -30,7 +32,7 @@ def generate_mog_datasets(points: int, latent_dims: int, output_dims: int):
     return np.array(gaussian_samples), latent_samples
 
 def generate_nonlinear_datasets(points: int, latent_dims: int, output_dims: int):
-    '''generate some very simple mixture of gaussians data.
+    '''Create data from a Gaussian, through a non-linearity, and add observation noise.
 
     Args:
         points (int): number of points to generate
@@ -42,9 +44,9 @@ def generate_nonlinear_datasets(points: int, latent_dims: int, output_dims: int)
         np.zeros(latent_dims), np.eye(latent_dims) * latent_noise, points)
 
     W1 = np.random.normal(size=(latent_dims, output_dims))
-    f1 = lambda X:np.tanh(X @ W1)
+    f1 = lambda X: np.tanh(X @ W1)
     W2 = np.random.normal(size=(output_dims, output_dims))
-    f2 = lambda X:X @ W2
+    f2 = lambda X: X @ W2
 
     noise_scale = 0.1
     noise = np.random.multivariate_normal(
